@@ -1,0 +1,239 @@
+<style>
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f5f5f5;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #888888;
+  --color-border-primary: #333333;
+  --color-border-secondary: #cccccc;
+  --color-border-tertiary: #e0e0e0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 20px;font-family:"Segoe UI", system-ui, -apple-system, sans-serif;max-width:1200px;margin:0 auto}
+.search-bar{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);margin-bottom:1rem}
+.search-bar:focus{outline:none;border-color:var(--color-border-primary)}
+.search-row{display:flex;gap:8px;align-items:center}
+.search-row .search-bar{margin-bottom:0}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:1rem 0 1.25rem}
+.fb{padding:5px 13px;font-size:13px;border:0.5px solid var(--color-border-secondary);border-radius:999px;background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.fb:hover{background:var(--color-background-secondary)}
+.fb.on{background:#2C2C2A;color:#F1EFE8;border-color:#2C2C2A}
+.stats{display:flex;gap:10px;margin-bottom:1.25rem}
+.stat{background:var(--color-background-secondary);border-radius:8px;padding:10px 16px;flex:1;text-align:center}
+.stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-l{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.stats{margin:1.5rem 0}
+.sec-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:1.5rem 0 .6rem;padding-bottom:6px}
+.topic-sep{margin:1.5rem 0;border:none;border-top:1px solid var(--color-border-tertiary)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:9px;margin-bottom:.5rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:13px 15px;cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:var(--color-border-secondary)}
+.card.open{border-color:var(--color-border-primary)}
+.ch{display:flex;align-items:flex-start;gap:10px}
+.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.cn{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.cc{font-size:12px;color:var(--color-text-tertiary);margin-top:1px}
+.chev{margin-left:auto;font-size:11px;color:var(--color-text-tertiary);transition:transform .2s;flex-shrink:0;margin-top:3px}
+.card.open .chev{transform:rotate(180deg)}
+.body{display:none;margin-top:11px;padding-top:11px;border-top:0.5px solid var(--color-border-tertiary)}
+.card.open .body{display:block}
+.fm{font-family:"Consolas", "Courier New", monospace;font-size:14px;color:var(--color-text-primary);background:var(--color-background-secondary);padding:9px 13px;border-radius:8px;margin-bottom:9px;line-height:1.75;white-space:pre-wrap}
+.fn{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.fn b{font-weight:500;color:var(--color-text-primary)}
+.no-res{text-align:center;padding:2.5rem;color:var(--color-text-secondary);font-size:14px}
+.info-btn{background:none;border:none;font-size:18px;cursor:pointer;color:var(--color-text-secondary);margin-left:8px;vertical-align:middle}
+.info-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+.info-modal.show{display:flex}
+.info-content{background:#fff;padding:1.5rem 2rem;border-radius:12px;max-width:500px;max-height:80vh;overflow-y:auto;position:relative}
+.info-close{position:absolute;top:12px;right:16px;font-size:24px;cursor:pointer;color:var(--color-text-secondary)}
+.info-title{font-size:18px;font-weight:600;margin-bottom:1rem;color:var(--color-text-primary)}
+.info-desc{font-size:14px;line-height:1.6;color:var(--color-text-secondary)}
+</style>
+
+<div class="wrap">
+
+<h2 class="sr-only">Edexcel IGCSE Maths 4MA1 Higher — all formulas you must memorise (not given on the paper)</h2>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="sc">0</div><div class="stat-l">showing</div></div>
+  <div class="stat"><div class="stat-n" id="tc">0</div><div class="stat-l">total formulas</div></div>
+  <div class="stat"><div class="stat-n" id="cc2">0</div><div class="stat-l">topics</div></div>
+</div>
+
+
+
+<div class="info-modal" id="infoModal" onclick="if(event.target===this)toggleInfo()">
+  <div class="info-content">
+    <span class="info-close" onclick="toggleInfo()">×</span>
+    <div class="info-title">About This Page</div>
+    <div class="info-desc">
+      <p><b>Edexcel IGCSE Maths 4MA1 Higher</b></p>
+      <p>This page contains all the formulas you must memorise for the Edexcel IGCSE Mathematics (4MA1) Higher tier exam. These formulas are NOT given on the formula sheet, so you need to know them very well.</p>
+      <br>
+      <p><b>How to use:</b></p>
+      <p>• Click on any card to expand and see the formula with explanation<br>
+      • Use the search bar to find specific formulas<br>
+      • Use the filter buttons to show only specific topics<br></p>
+      <br>
+      <p><b>Topics covered:</b></p>
+      <p>Algebra & Graphs, Number & Percentages, Geometry, Trigonometry, Sequences & Series, Statistics & Probability, Indices & Surds, Calculus & Rates</p>
+    </div>
+  </div>
+</div>
+
+<div class="search-row">
+  <input class="search-bar" id="srch" placeholder="Search formulas, topics or keywords..." oninput="render()">
+  <button class="info-btn" onclick="toggleInfo()" title="More information">ℹ️</button>
+</div>
+
+<div class="filter-row" id="frow"></div>
+<div id="out"></div>
+</div>
+
+<script>
+const CATS = {
+  "Algebra & graphs": "#534AB7",
+  "Number & percentages": "#0F6E56",
+  "Geometry": "#993C1D",
+  "Trigonometry": "#185FA5",
+  "Sequences & series": "#854F0B",
+  "Statistics & probability": "#3B6D11",
+  "Indices & surds": "#993556",
+  "Calculus & rates": "#5F5E5A"
+};
+
+const DATA = [
+  {name:"Equation of a straight line",cat:"Algebra & graphs",f:"y = mx + c",n:"<b>m</b> = gradient, <b>c</b> = y-intercept. For a line through (x₁,y₁) with gradient m use: y − y₁ = m(x − x₁)."},
+  {name:"Gradient between two points",cat:"Algebra & graphs",f:"m = (y₂ − y₁) / (x₂ − x₁)",n:"Rise over run. Parallel lines share the same gradient. Perpendicular lines: m₁ × m₂ = −1, so m₂ = −1/m₁."},
+  {name:"Midpoint of two coordinates",cat:"Algebra & graphs",f:"M = ( (x₁+x₂)/2 , (y₁+y₂)/2 )",n:"Average the x-values, average the y-values."},
+  {name:"Distance between two points",cat:"Algebra & graphs",f:"d = √[ (x₂−x₁)² + (y₂−y₁)² ]",n:"Pythagoras applied to the coordinate differences."},
+  {name:"x-coordinate of a parabola vertex",cat:"Algebra & graphs",f:"x = −b / 2a",n:"For y = ax²+bx+c. Substitute back to find the y-coordinate. If a > 0 it's a minimum; a < 0 a maximum."},
+  {name:"Completing the square",cat:"Algebra & graphs",f:"ax²+bx+c = a(x + b/2a)² − b²/4a + c",n:"Write in form a(x+p)²+q. Vertex is (−p, q). Useful to solve quadratics and find the turning point without differentiating."},
+  {name:"Difference of two squares",cat:"Algebra & graphs",f:"a² − b² = (a+b)(a−b)",n:"Key factorisation identity. Spot it when two perfect squares are subtracted."},
+  {name:"Direct proportion",cat:"Algebra & graphs",f:"y ∝ x  →  y = kx\ny ∝ x²  →  y = kx²\ny ∝ √x  →  y = k√x",n:"Find <b>k</b> by substituting a known pair. Once k is known the relationship holds for all values."},
+  {name:"Inverse proportion",cat:"Algebra & graphs",f:"y ∝ 1/x  →  y = k/x\ny ∝ 1/x²  →  y = k/x²",n:"As x increases y decreases. Product xy = k (constant) for simple inverse proportion."},
+  {name:"Circle equation (centre origin)",cat:"Algebra & graphs",f:"x² + y² = r²",n:"Centre at origin, radius r. For centre (a,b): (x−a)²+(y−b)² = r²."},
+  {name:"Tangent to a circle",cat:"Algebra & graphs",f:"gradient of tangent = −1 / (gradient of radius)",n:"The tangent at any point on a circle is perpendicular to the radius at that point. Use the perpendicular gradient rule."},
+  {name:"Equation of a circle (general centre)",cat:"Algebra & graphs",f:"(x − a)² + (y − b)² = r²",n:"Centre is (a, b), radius is r. Expand and rearrange to identify centre and radius from a given equation."},
+  {name:"Laws of indices — multiply & divide",cat:"Indices & surds",f:"aᵐ × aⁿ = aᵐ⁺ⁿ\naᵐ ÷ aⁿ = aᵐ⁻ⁿ\n(aᵐ)ⁿ = aᵐⁿ",n:"Only works when bases are the same."},
+  {name:"Laws of indices — special cases",cat:"Indices & surds",f:"a⁰ = 1\na⁻ⁿ = 1 / aⁿ\na^(1/n) = ⁿ√a\na^(m/n) = (ⁿ√a)ᵐ",n:"Negative index → reciprocal. Fractional index → root. E.g. 8^(2/3) = (³√8)² = 4."},
+  {name:"Surd rules",cat:"Indices & surds",f:"√a × √b = √(ab)\n√a / √b = √(a/b)\n(√a)² = a",n:"To rationalise 1/√a multiply top and bottom by √a. To rationalise 1/(a+√b) multiply by (a−√b)."},
+  {name:"Rationalising the denominator",cat:"Indices & surds",f:"1/√a = √a / a\n1/(p+√q) = (p−√q) / (p²−q)",n:"Multiply numerator and denominator by the conjugate. The result has no surd in the denominator."},
+  {name:"nth term of an arithmetic sequence",cat:"Sequences & series",f:"aₙ = a + (n−1)d",n:"<b>a</b> = first term, <b>d</b> = common difference. Find d by subtracting consecutive terms."},
+  {name:"nth term of a geometric sequence",cat:"Sequences & series",f:"aₙ = ar^(n−1)",n:"<b>a</b> = first term, <b>r</b> = common ratio (aₙ₊₁/aₙ). Used when terms are multiplied by a constant factor."},
+  {name:"Compound interest / growth & decay",cat:"Number & percentages",f:"Total = P(1 ± r/100)ⁿ",n:"<b>P</b> = principal, <b>r</b> = % rate, <b>n</b> = number of periods. Use + for growth, − for decay/depreciation."},
+  {name:"Simple interest",cat:"Number & percentages",f:"I = PRT / 100",n:"<b>P</b> = principal, <b>R</b> = rate (%), <b>T</b> = time in years. Total = P + I."},
+  {name:"Percentage change",cat:"Number & percentages",f:"% change = (change / original) × 100",n:"Change = new − original. Positive = increase, negative = decrease."},
+  {name:"Reverse percentage",cat:"Number & percentages",f:"Original = new amount / (1 ± r/100)",n:"Use when you know the value AFTER a % change and need the original. E.g. after 20% increase: original = new / 1.2."},
+  {name:"Speed, distance, time",cat:"Number & percentages",f:"Speed = Distance / Time\nDistance = Speed × Time\nTime = Distance / Speed",n:"Cover what you want to find in the SDT triangle: D on top, S and T on the bottom."},
+  {name:"Density, mass, volume",cat:"Number & percentages",f:"Density = Mass / Volume",n:"Units: g/cm³ or kg/m³. Triangle: M on top, D and V below."},
+  {name:"Pressure, force, area",cat:"Number & percentages",f:"Pressure = Force / Area",n:"Units: Pascals (Pa) = N/m². Triangle: F on top, P and A below."},
+  {name:"Pythagoras' theorem",cat:"Geometry",f:"a² + b² = c²",n:"<b>c</b> is the hypotenuse (opposite the right angle). Rearrange: a = √(c²−b²). Only valid for right-angled triangles."},
+  {name:"Area of a rectangle / parallelogram",cat:"Geometry",f:"Rectangle: A = l × w\nParallelogram: A = base × perpendicular height",n:"For the parallelogram the height is perpendicular to the base — not the slant side."},
+  {name:"Arc length & sector area",cat:"Geometry",f:"Arc length L = (θ/360) × 2πr\nSector area A = (θ/360) × πr²",n:"θ is the angle at the centre in degrees. Both are fractions of the full circle."},
+  {name:"Interior angle sum of a polygon",cat:"Geometry",f:"Sum = (n − 2) × 180°",n:"<b>n</b> = number of sides. E.g. hexagon: (6−2)×180 = 720°."},
+  {name:"Exterior angle of a regular polygon",cat:"Geometry",f:"Exterior angle = 360° / n",n:"All exterior angles of any polygon always sum to 360°. Interior + exterior = 180°."},
+  {name:"Volume of a cuboid",cat:"Geometry",f:"V = l × w × h",n:"Surface area = 2(lw + lh + wh). Each pair of opposite faces counted once."},
+  {name:"Circumference & area of a circle",cat:"Geometry",f:"C = 2πr  (or πd)\nA = πr²",n:"Foundation students must memorise these; Higher students receive them on the formula sheet — included here as they underpin many other formulas."},
+  {name:"SOHCAHTOA",cat:"Trigonometry",f:"sin θ = Opposite / Hypotenuse\ncos θ = Adjacent / Hypotenuse\ntan θ = Opposite / Adjacent",n:"Right-angled triangles only. Rearrange to find a side: e.g. O = H·sin θ. Use inverse (sin⁻¹ etc.) to find an angle."},
+  {name:"Exact trig values",cat:"Trigonometry",f:"        0°   30°    45°    60°   90°\nsin θ:  0    1/2   √2/2  √3/2   1\ncos θ:  1   √3/2  √2/2   1/2    0\ntan θ:  0   1/√3   1     √3    undef",n:"Memorise the pattern: sin increases 0→1; cos is the reverse. tan 90° is undefined. These must be given exactly — no decimals."},
+  {name:"Angle in a semicircle",cat:"Trigonometry",f:"Angle in a semicircle = 90°",n:"Any angle inscribed in a semicircle (subtended by the diameter) is always a right angle. Circle theorem — not given."},
+  {name:"Circle theorems — angles",cat:"Trigonometry",f:"Angle at centre = 2 × angle at circumference\nAngles in same segment are equal\nOpposite angles in a cyclic quad sum to 180°",n:"These are properties you must state by name in proofs. They are never given on the paper."},
+  {name:"Circle theorems — tangents & chords",cat:"Trigonometry",f:"Tangent ⊥ radius at point of contact\nTwo tangents from external point are equal\nPerpendicular from centre bisects a chord\nAlternate segment theorem",n:"Alternate segment theorem: the angle between a tangent and a chord equals the inscribed angle in the alternate segment."},
+  {name:"Mean from frequency table",cat:"Statistics & probability",f:"Mean = Σ(f × x) / Σf",n:"<b>f</b> = frequency, <b>x</b> = midpoint of class (for grouped data). Σ means 'sum of all'."},
+  {name:"Probability of an event",cat:"Statistics & probability",f:"P(A) = favourable outcomes / total outcomes\nP(A') = 1 − P(A)",n:"P(A') is the complement — probability of A NOT happening."},
+  {name:"AND rule (independent events)",cat:"Statistics & probability",f:"P(A and B) = P(A) × P(B)",n:"Only when A and B are independent (one result doesn't affect the other)."},
+  {name:"OR rule (mutually exclusive)",cat:"Statistics & probability",f:"P(A or B) = P(A) + P(B)  [mutually exclusive]\nP(A∪B) = P(A)+P(B)−P(A∩B)  [general]",n:"If events can overlap, subtract the intersection to avoid double-counting."},
+  {name:"Conditional probability",cat:"Statistics & probability",f:"P(A|B) = P(A∩B) / P(B)",n:"Read as 'probability of A given B has occurred'. Used in tree diagrams where the second branch depends on the first."},
+  {name:"Expected value",cat:"Statistics & probability",f:"E(X) = Σ[ x × P(X=x) ]",n:"Multiply each outcome by its probability and sum them all. This is the long-run average."},
+  {name:"Interquartile range",cat:"Statistics & probability",f:"IQR = Q3 − Q1",n:"Q1 = lower quartile (25th percentile), Q3 = upper quartile (75th percentile). An outlier is typically more than 1.5 × IQR beyond Q1 or Q3."},
+  {name:"Standard form",cat:"Number & percentages",f:"A × 10ⁿ  where  1 ≤ A < 10, n ∈ ℤ",n:"To multiply: multiply the A values and add the powers. To divide: divide A values and subtract powers. Adjust so A stays in [1,10)."},
+  {name:"Bounds & error intervals",cat:"Number & percentages",f:"Lower bound = x − 0.5 × unit\nUpper bound = x + 0.5 × unit",n:"E.g. 7.4 cm (1 d.p.) → bounds [7.35, 7.45). For calculations: max of a product = upper×upper; min = lower×lower. For division: max = upper/lower."},
+  {name:"Function notation",cat:"Algebra & graphs",f:"fg(x) means f(g(x))  — apply g first, then f\nf⁻¹(x) is the inverse of f",n:"To find the inverse: replace f(x) with y, swap x and y, rearrange for y. The domain of f⁻¹ is the range of f."},
+  {name:"Gradient of a curve (tangent)",cat:"Calculus & rates",f:"Draw the tangent at the point.\nGradient = rise / run of the tangent line",n:"At IGCSE level differentiation is not required; use a carefully drawn tangent. The gradient of a curve at a point equals the instantaneous rate of change."},
+  {name:"Area under a graph",cat:"Calculus & rates",f:"Area ≈ sum of trapezium strips\n= ½(y₀+yₙ)h + h(y₁+y₂+...+yₙ₋₁)",n:"Each strip has width h (equal intervals). More strips → more accurate estimate. The area under a speed-time graph = distance travelled."},
+  {name:"Iteration formula",cat:"Algebra & graphs",f:"xₙ₊₁ = f(xₙ)",n:"Start with an initial estimate x₀, substitute to get x₁, repeat. Converges to a root of f(x)=x. Check convergence by verifying the root lies in the given interval."},
+  {name:"Similarity — length, area, volume",cat:"Geometry",f:"If scale factor = k:\nLength ratio = k\nArea ratio = k²\nVolume ratio = k³",n:"Used when two shapes are similar (same shape, different size). Find k from a pair of corresponding lengths, then scale up/down areas and volumes accordingly."},
+  {name:"Vectors — basic operations",cat:"Algebra & graphs",f:"a + b : add components\nka : multiply each component by k\n|a| = √(x²+y²)  for a = (x,y)",n:"Position vector of point P = OP⃗. Midpoint M of AB: OM⃗ = ½(OA⃗+OB⃗). Parallel vectors are scalar multiples of each other."},
+  {name:"Percentage of an amount",cat:"Number & percentages",f:"x% of y = (x/100) × y",n:"To increase by x%: multiply by (1+x/100). To decrease by x%: multiply by (1−x/100)."},
+  {name:"Ratio & proportion sharing",cat:"Number & percentages",f:"Total parts = sum of ratio\nEach share = (part / total) × whole",n:"E.g. share £240 in ratio 3:5: total parts = 8; each part = £30; shares = £90 and £150."},
+  {name:"Direct & inverse proportion graphs",cat:"Algebra & graphs",f:"y = kx  → straight line through origin\ny = k/x  → reciprocal curve\ny = kx²  → parabola through origin",n:"Sketching these is a common exam question. Know the shape and that each passes through the origin (except y=k/x which has asymptotes at x=0, y=0)."},
+];
+
+const CATS_LIST = [...new Set(DATA.map(d=>d.cat))];
+let active = 'all';
+let opened = null;
+
+function setF(f, btn){
+  active = f;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+function render(){
+  const q = document.getElementById('srch').value.toLowerCase();
+  const filtered = DATA.filter(d=>{
+    const mf = active==='all'||active===d.cat;
+    const mq = !q||d.name.toLowerCase().includes(q)||d.cat.toLowerCase().includes(q)||d.f.toLowerCase().includes(q)||d.n.toLowerCase().includes(q);
+    return mf&&mq;
+  });
+
+  document.getElementById('sc').textContent = filtered.length;
+  document.getElementById('tc').textContent = DATA.length;
+  const shownCats = [...new Set(filtered.map(d=>d.cat))];
+  document.getElementById('cc2').textContent = shownCats.length;
+
+  const frow = document.getElementById('frow');
+  if(!frow.hasChildNodes()){
+    let html = `<button class="fb on" onclick="setF('all',this)">All</button>`;
+    CATS_LIST.forEach(c=>{
+      html += `<button class="fb" onclick="setF('${c}',this)">${c}</button>`;
+    });
+    frow.innerHTML = html;
+  }
+
+  let html = '';
+  shownCats.forEach(cat=>{
+    const items = filtered.filter(d=>d.cat===cat);
+    const col = CATS[cat]||'#888';
+    if(html) html += '<hr class="topic-sep">';
+    html += `<div class="sec-title">${cat}</div><div class="grid">`;
+    items.forEach(d=>{
+      const id = d.name.replace(/[^a-z0-9]/gi,'_');
+      const fLines = d.f.split('\n').map(l=>`<div>${l}</div>`).join('');
+      const isOpen = opened===id;
+      html += `<div class="card${isOpen?' open':''}" id="c_${id}" onclick="tog('${id}')">
+        <div class="ch">
+          <div class="cat-dot" style="background:${col}"></div>
+          <div><div class="cn">${d.name}</div><div class="cc">${d.cat}</div></div>
+          <span class="chev">▼</span>
+        </div>
+        <div class="body">
+          <div class="fm">${fLines}</div>
+          <div class="fn">${d.n}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+
+  if(!filtered.length) html = '<div class="no-res">No matching formulas found.</div>';
+  document.getElementById('out').innerHTML = html;
+}
+
+function tog(id){
+  const el = document.getElementById('c_'+id);
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('open'));
+  opened = wasOpen ? null : id;
+  if(!wasOpen) el.classList.add('open');
+}
+
+function toggleInfo(){
+  document.getElementById('infoModal').classList.toggle('show');
+}
+
+render();
+</script>
